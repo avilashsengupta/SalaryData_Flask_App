@@ -1,6 +1,10 @@
 # SalaryData_Flask_App
 <p>This project 2 parts: Dashboard showing Salaries by City and Salaries by Position Level.</p>
-<p>Dataset - Locations (5), Job Titles (25).</p>
+<p><b>Dataset</b></p>
+<ul>
+  <li><b>Source</b>: Kaggle</li>
+  <li><b>Columns</b>: Company Name, Job Title, Salaries Reported, Location, Salary</li>
+</ul>
 <p><b>Salaries by City</b></p>
 <ul>
   <li>Select <b>Location</b> to view info for that particular <b>Location</b></li>
