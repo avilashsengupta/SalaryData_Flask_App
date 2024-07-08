@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% block title %} Salary by City {% endblock title %}
+{% block body %}
+<div class="grid grid-cols-1 gap-5 p-5">
+    <form action="/" method="POST">
+        <div class="grid grid-cols-12">
+        <div class="font-bold text-sm col-span-12 mb-2">Select Location Cities</div>
+            <select type="dropdown" name="location-home" id="location-home" class="h-8 text-sm font-bold
+            bg-slate-200 w-full col-span-10 md:col-span-11 px-1 md:px-2">
+                {% for city in location_cities %} 
+                <option value="{{city}}">{{city}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-sky-700 text-white h-8 col-span-2 md:col-span-1">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </form>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="text-center py-3 text-xl font-bold bg-slate-100 text-sky-800
+        md:col-span-3 col-span-1 border-[1px] border-slate-300">{{init_location}}</div>
+        <div class="grid grid-cols-1 border-[1px] border-blue-500 p-2">
+            <p class="text-base md:text-lg font-bold flex items-center justify-center h-16">Companies</p>
+            <hr class="border-t-[1px] border-gray-400 w-4/5 mx-auto">
+            <p class="text-6xl font-bold flex items-center justify-center h-24
+            text-blue-500">{{total_companies}}</p>
+        </div>
+        <div class="grid grid-cols-1 border-[1px] border-purple-500 p-2">
+            <p class="text-base md:text-lg font-bold flex items-center justify-center h-16">Salaries Reported</p>
+            <hr class="border-t-[1px] border-gray-400 w-4/5 mx-auto">
+            <p class="text-6xl font-bold flex items-center justify-center h-24
+            text-purple-500">{{salary_report}}</p>
+        </div>
+        <div class="grid grid-cols-1 border-[1px] border-green-500 p-2">
+            <p class="text-base md:text-lg font-bold flex items-center justify-center h-16">Average Salary</p>
+            <hr class="border-t-[1px] border-gray-400 w-4/5 mx-auto">
+            <p class="text-6xl font-bold flex items-center justify-center h-24
+            text-green-500">{{avg_salary}}</p>
+        </div>
+    </div>
+    <div class="overflow-auto">
+        <table class="w-full text-sm" cellspacing="5">
+            <thead>
+                <tr>
+                    <td class="font-bold text-center px-2 py-2 bg-gray-800 text-white">Position</td>
+                    <td class="font-bold text-center px-2 py-2 bg-gray-800 text-white">Salaries</td>
+                    <td class="font-bold text-center px-2 py-2 bg-gray-800 text-white">Companies</td>
+                    <td class="font-bold text-center px-2 py-2 bg-gray-800 text-white">Average Salary</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(jobtl|length) %}
+                    {% if (i % 2) == 1 %}
+                    <tr>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400
+                        bg-slate-100">{{jobtl[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400
+                        bg-slate-100 text-center">{{slrpt[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400
+                        bg-slate-100 text-center">{{compn[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400
+                        bg-slate-100 text-center">{{salry[i]}}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400">{{jobtl[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400 text-center">{{slrpt[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400 text-center">{{compn[i]}}</td>
+                        <td class="font-semibold px-2 py-2 border-b-[1px] border-slate-400 text-center">{{salry[i]}}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock body %}

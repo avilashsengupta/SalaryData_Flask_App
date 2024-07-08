@@ -1,0 +1,77 @@
+{% extends 'main.html' %}
+{% block title %} Salary by Position {% endblock title %}
+{% block body %}
+<div class="grid grid-cols-1 text-sm gap-3 p-5">
+    <form action="/position" method="POST">
+        <div class="grid grid-cols-12">
+        <div class="font-bold text-sm col-span-12 mb-2">Select Position Levels</div>
+            <select type="dropdown" name="position-level" id="position-level" class="h-8 text-sm font-bold
+            bg-slate-200 w-full col-span-10 md:col-span-11 px-1 md:px-2">
+                {% for pos in position_level %} 
+                <option value="{{pos}}">{{pos}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-sky-700 text-white h-8 col-span-2 md:col-span-1">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </form>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="text-center py-3 text-xl font-bold bg-slate-100 text-sky-800
+        md:col-span-3 col-span-1 border-[1px] border-slate-300">{{init_position}} ({{total_pos_count}})</div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2">
+        <div id="salary-by-loc"></div>
+        <div id="report-by-loc"></div>
+        <div id="company-by-loc" class="col-span-1 md:col-span-2"></div>
+    </div>
+</div>
+
+<script>
+    var city = '{{location_cities | tojson}}';
+    var salary = '{{mean_salaries | tojson}}';
+    var slrept = '{{sal_report | tojson}}';
+    var company = '{{companies | tojson}}';
+
+    city = city.substring(1, city.length - 1);
+    salary = salary.substring(1, salary.length - 1);
+    slrept = slrept.substring(1, slrept.length - 1);
+    company = company.substring(1, company.length - 1);
+
+    var salary_by_loc_bar_graph = [{
+        x: JSON.parse(city),
+        y: JSON.parse(salary),
+        type: 'bar'
+    }];
+    var salary_by_loc_bar_layout = {
+        title: 'Average Salary in Different Cities',
+        xaxis: {title: 'Cities'},
+        yaxis: {title: 'Average Salary'},
+        barcornerradius: 5
+    };
+    Plotly.newPlot(document.getElementById('salary-by-loc'), salary_by_loc_bar_graph, salary_by_loc_bar_layout);
+
+    var salrpt_by_loc_bar_graph = [{
+        labels: JSON.parse(city),
+        values: JSON.parse(slrept),
+        type: 'pie'
+    }];
+    var salrpt_by_loc_bar_layout = {
+        title: 'Salaries Reported in Different Cities'
+    };
+    Plotly.newPlot(document.getElementById('report-by-loc'), salrpt_by_loc_bar_graph, salrpt_by_loc_bar_layout);
+
+    var companies_by_loc_bar_graph = [{
+        x: JSON.parse(company),
+        y: JSON.parse(city),
+        type: 'bar',
+        orientation: 'h'
+    }];
+    var companies_by_loc_bar_layout = {
+        title: 'Company Branches in Different Cities',
+        xaxis: {title: 'Companies'},
+        barcornerradius: 5
+    };
+    Plotly.newPlot(document.getElementById('company-by-loc'), companies_by_loc_bar_graph, companies_by_loc_bar_layout);
+</script>
+{% endblock body %}
